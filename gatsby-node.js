@@ -6,8 +6,8 @@
 
 // You can delete this file if you're not using it
 
-const createPages = require('./gatsby/createPages');
+const createPages = require('./gatsby/createPages')
 
 exports.createPages = async ({ actions, graphql }) => {
-    await createPages({ actions, graphql });
-};
+    await createPages({ actions, graphql })
+}
