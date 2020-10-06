@@ -24,9 +24,8 @@ module.exports = async ({ actions, graphql }) => {
         }
       }
     }
-  `;
-
-    const { createPage } = actions;
+  `
+    const { createPage } = actions
     const allPages = []
     // Create a function for getting pages
     const fetchPages = async variables =>
@@ -38,7 +37,7 @@ module.exports = async ({ actions, graphql }) => {
                         pageInfo: { hasNextPage, endCursor },
                     },
                 },
-            } = data;
+            } = data
             nodes.map(page => {
                 allPages.push(page)
             })
@@ -46,11 +45,11 @@ module.exports = async ({ actions, graphql }) => {
                 return fetchPages({ first: variables.first, after: endCursor })
             }
             return allPages
-        });
+        })
 
     // Map over all the pages and call createPage
     await fetchPages({ first: 100, after: null }).then(allPages => {
-        const pageTemplate = path.resolve(`./src/templates/page.js`);
+        const pageTemplate = path.resolve(`./src/templates/page.js`)
 
         allPages.map(page => {
             if (page.isFrontPage === true) page.uri = ``
@@ -60,6 +59,6 @@ module.exports = async ({ actions, graphql }) => {
                 component: pageTemplate,
                 context: page,
             })
-        });
-    });
-};
+        })
+    })
+}
