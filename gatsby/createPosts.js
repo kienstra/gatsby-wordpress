@@ -1,15 +1,13 @@
 const path = require(`path`)
+
 module.exports = async ({ actions, graphql }) => {
     // Setup our query
-    const GET_PAGES = `
-        query GET_PAGES($first:Int $after:String) {
+    const GET_POSTS = `
+        query GET_POSTS($first:Int $after:String) {
         wpgraphql {
-            pages(
+            posts(
             first: $first
             after: $after
-            where: {
-                parent: null
-            }
             ) {
             pageInfo {
                 endCursor
@@ -18,7 +16,7 @@ module.exports = async ({ actions, graphql }) => {
             nodes {
                 id
                 uri
-                pageId
+                postId
                 title
             }
             }
@@ -27,38 +25,38 @@ module.exports = async ({ actions, graphql }) => {
     `
 
     const { createPage } = actions
-    const allPages = []
+    const allPosts = []
     // Create a function for getting pages
     const fetchPages = async variables =>
-        await graphql(GET_PAGES, variables).then(({ data }) => {
+        await graphql(GET_POSTS, variables).then(({ data }) => {
             const {
                 wpgraphql: {
-                    pages: {
+                    posts: {
                         nodes,
                         pageInfo: { hasNextPage, endCursor },
                     },
                 },
             } = data
-            nodes.map(page => {
-                allPages.push(page)
+            nodes.map(post => {
+                allPosts.push(post)
             })
             if (hasNextPage) {
                 return fetchPages({ first: variables.first, after: endCursor })
             }
-            return allPages
+            return allPosts
         })
 
     // Map over all the pages and call createPage
-    await fetchPages({ first: 100, after: null }).then(allPages => {
-        const pageTemplate = path.resolve(`./src/templates/page.js`)
+    await fetchPages({ first: 100, after: null }).then(allPosts => {
+        const postTemplate = path.resolve(`./src/templates/post.js`)
 
-        allPages.map(page => {
-            if (page.isFrontPage === true) page.uri = ``
-            console.log(`create page: ${page.uri}`)
+        allPosts.map(post => {
+            if (post.isFrontPage === true) post.uri = ``
+            console.log(`create page: ${post.uri}`)
             createPage({
-                path: `/${page.uri}`,
-                component: pageTemplate,
-                context: page,
+                path: `/${post.uri}`,
+                component: postTemplate,
+                context: post,
             })
         })
     })
