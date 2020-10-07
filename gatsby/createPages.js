@@ -1,30 +1,30 @@
 const path = require(`path`)
 module.exports = async ({ actions, graphql }) => {
-    // Setup our query
-    const GET_PAGES = `
-        query GET_PAGES($first:Int $after:String) {
-        wpgraphql {
-            pages(
-            first: $first
-            after: $after
-            where: {
-                parent: null
-            }
-            ) {
-            pageInfo {
-                endCursor
-                hasNextPage
-            }
-            nodes {
-                id
-                uri
-                pageId
-                title
-            }
-            }
+  const GET_PAGES = `
+    query GET_PAGES($first:Int $after:String) {
+      wpgraphql {
+        pages(
+          first: $first
+          after: $after
+          where: {
+            parent: null
+          }
+        ) {
+          pageInfo {
+            endCursor
+            hasNextPage
+          }
+          nodes {
+            id
+            uri
+            pageId
+            slug
+            title
+          }
         }
-        }
-    `
+      }
+    }
+  `
 
     const { createPage } = actions
     const allPages = []
@@ -53,10 +53,10 @@ module.exports = async ({ actions, graphql }) => {
         const pageTemplate = path.resolve(`./src/templates/page.js`)
 
         allPages.map(page => {
-            if (page.isFrontPage === true) page.uri = ``
-            console.log(`create page: ${page.uri}`)
+            if (page.isFrontPage === true) page.slug = ``
+            console.log(`create page: ${page.slug}`)
             createPage({
-                path: `/${page.uri}`,
+                path: page.slug,
                 component: pageTemplate,
                 context: page,
             })

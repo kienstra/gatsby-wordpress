@@ -1,14 +1,13 @@
 const path = require(`path`)
 
 module.exports = async ({ actions, graphql }) => {
-    // Setup our query
     const GET_POSTS = `
-        query GET_POSTS($first:Int $after:String) {
+      query GET_POSTS($first:Int $after:String) {
         wpgraphql {
-            posts(
+          posts(
             first: $first
             after: $after
-            ) {
+          ) {
             pageInfo {
                 endCursor
                 hasNextPage
@@ -17,11 +16,12 @@ module.exports = async ({ actions, graphql }) => {
                 id
                 uri
                 postId
+                slug
                 title
             }
-            }
+          }
         }
-        }
+      }
     `
 
     const { createPage } = actions
@@ -51,10 +51,10 @@ module.exports = async ({ actions, graphql }) => {
         const postTemplate = path.resolve(`./src/templates/post.js`)
 
         allPosts.map(post => {
-            if (post.isFrontPage === true) post.uri = ``
-            console.log(`create page: ${post.uri}`)
+            if (post.isFrontPage === true) post.slug = ``
+            console.log(`create post: ${post.slug}`)
             createPage({
-                path: `/${post.uri}`,
+                path: `/blog/${post.slug}`,
                 component: postTemplate,
                 context: post,
             })
