@@ -20,7 +20,6 @@ module.exports = async ({ actions, graphql }) => {
             databaseId
             slug
             title
-            isFrontPage
           }
         }
       }

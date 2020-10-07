@@ -16,6 +16,7 @@ module.exports = async ({ actions, graphql }) => {
                 id
                 uri
                 postId
+                slug
                 title
             }
           }
