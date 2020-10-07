@@ -26,8 +26,10 @@ module.exports = async ({ actions, graphql }) => {
 
     const { createPage } = actions
     const allPosts = []
-    // Create a function for getting pages
-    const fetchPages = async variables =>
+    const blogPages = []
+    let pageNumber = 0
+
+    const fetchPosts = async variables =>
         await graphql(GET_POSTS, variables).then(({ data }) => {
             const {
                 wpgraphql: {
@@ -37,18 +39,40 @@ module.exports = async ({ actions, graphql }) => {
                     },
                 },
             } = data
+
+            const nodeIds = nodes.map(node => node.postId)
+            const postsTemplate = path.resolve(`./src/templates/posts.js`)
+            const postsPath = !variables.after ? `/blog` : `/blog/page/${pageNumber}`
+
+            blogPages[pageNumber] = {
+              path: postsPath,
+              component: postsTemplate,
+              context: {
+                ids: nodeIds,
+                pageNumber,
+                hasNextPage,
+              },
+              ids: nodeIds,
+            }
+
             nodes.map(post => {
                 allPosts.push(post)
             })
             if (hasNextPage) {
-                return fetchPages({ first: variables.first, after: endCursor })
+                pageNumber++
+                return fetchPosts({ first: 12, after: endCursor })
             }
             return allPosts
         })
 
     // Map over all the pages and call createPage
-    await fetchPages({ first: 100, after: null }).then(allPosts => {
+    await fetchPosts({ first: 12, after: null }).then(allPosts => {
         const postTemplate = path.resolve(`./src/templates/post.js`)
+
+        blogPages.map( blogPage => {
+          console.log(`create post archive: ${blogPage.path}`)
+          createPage(blogPage)
+        })
 
         allPosts.map(post => {
             if (post.isFrontPage === true) post.slug = ``
