@@ -50,7 +50,7 @@ const MainMenu = props => {
                 },
             }) => {
                 return (
-                    <nav>
+                    <nav className="main-menu">
                         <ul>
                             {menu.map(item => renderMenuItem(item))}
                         </ul>
