@@ -17,9 +17,10 @@ module.exports = async ({ actions, graphql }) => {
           nodes {
             id
             uri
-            pageId
+            databaseId
             slug
             title
+            isFrontPage
           }
         }
       }
@@ -35,7 +36,7 @@ module.exports = async ({ actions, graphql }) => {
                 wpgraphql: {
                     pages: {
                         nodes,
-                        pageInfo: { hasNextPage, endCursor },
+                        pageInfo: { endCursor, hasNextPage },
                     },
                 },
             } = data
@@ -53,10 +54,14 @@ module.exports = async ({ actions, graphql }) => {
         const pageTemplate = path.resolve(`./src/templates/page.js`)
 
         allPages.map(page => {
-            if (page.isFrontPage === true) page.slug = ``
-            console.log(`create page: ${page.slug}`)
+            if (page && page.isFrontPage === true) {
+                page.uri = `/`
+            }
+
+            console.log(`create page: ${page.uri}`)
+
             createPage({
-                path: page.slug,
+                path: page.uri,
                 component: pageTemplate,
                 context: page,
             })

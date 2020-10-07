@@ -16,7 +16,6 @@ module.exports = async ({ actions, graphql }) => {
                 id
                 uri
                 postId
-                slug
                 title
             }
           }
@@ -75,10 +74,10 @@ module.exports = async ({ actions, graphql }) => {
         })
 
         allPosts.map(post => {
-            if (post.isFrontPage === true) post.slug = ``
-            console.log(`create post: ${post.slug}`)
+            if (post.isFrontPage === true) post.uri = ``
+            console.log(`create post: ${post.uri}`)
             createPage({
-                path: `/blog/${post.slug}`,
+                path: `/blog/${post.uri}`,
                 component: postTemplate,
                 context: post,
             })
