@@ -3,6 +3,7 @@ import { graphql } from "gatsby"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Pagination from "../components/pagination"
+import ArchivePosts from "../components/ArchivePosts";
 
 const Posts = props => {
   const {
@@ -18,9 +19,7 @@ const Posts = props => {
     <Layout>
       <SEO title={`Blog Archive`} />
       <h1>Blog Archive {currentPage}</h1>
-      {posts.nodes.map(post => (
-        <h2 key={post.id}>{post.title}</h2>
-      ))}
+      <ArchivePosts posts={posts} />
       <Pagination pageNumber={pageNumber} hasNextPage={hasNextPage} />
     </Layout>
   )
@@ -36,6 +35,7 @@ export const pageQuery = graphql`
           id
           title
           slug
+          uri
         }
       }
     }

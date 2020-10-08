@@ -78,7 +78,7 @@ module.exports = async ({ actions, graphql }) => {
             if (post.isFrontPage === true) post.uri = ``
             console.log(`create post: ${post.uri}`)
             createPage({
-                path: `/blog/${post.uri}`,
+                path: post.uri,
                 component: postTemplate,
                 context: post,
             })

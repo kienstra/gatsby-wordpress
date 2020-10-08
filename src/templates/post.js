@@ -17,7 +17,7 @@ const Post = props => {
             <li>Author: <Link to={`/user/${author.node.slug}`}>{author.node.name}</Link></li>
             { !! categories.nodes.length && (
                 <>
-                    { ` // ` }
+                    { ` | ` }
                     <li>
                         Category:
                         <ul>
@@ -30,9 +30,9 @@ const Post = props => {
             )}
             { !! tags.nodes.length && (
                 <>
-                    {` // `}
+                    {` | `}
                     <li>
-                    Tag:
+                    Tags:
                         <ul>
                             {tags.nodes.map(tag => (
                                 <li key={tag.id}><Link to={`/blog/tag/${tag.slug}`}>{tag.name}</Link></li>
