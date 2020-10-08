@@ -12,6 +12,7 @@ const CategoryTemplate = props => {
   const { name } = category
   return (
     <Layout>
+      <SEO title={category.name} />
       <h1>Category: {name}</h1>
     </Layout>
   )

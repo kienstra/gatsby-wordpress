@@ -1,10 +1,6 @@
 # Gatsby WordPress
 
-## Local Development
-
-```bash
-npm install && npm run dev
-```
+Based on Zac Gordon's course [Headless WordPress with Gatsby](https://javascriptforwp.com/courses/headless-wordpress-with-gatsby)
 
 ## Local development
 
