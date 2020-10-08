@@ -1,17 +1,17 @@
 const path = require(`path`)
 module.exports = async ({ actions, graphql }) => {
     // Setup our query
-    const GET_TAGS = `
-        query GET_TAGS($first:Int) {
+    const GET_CATEGORIES = `
+        query GET_CATEGORIES($first:Int) {
             wpgraphql {
-                tags(first: $first) {
+                categories(first: $first) {
                     pageInfo {
                         endCursor
                         hasNextPage
                     }
                     nodes {
                         id
-                        tagId
+                        categoryId
                         slug
                     }
                 }
@@ -22,34 +22,34 @@ module.exports = async ({ actions, graphql }) => {
     const { createPage } = actions
     const allTags = []
 
-    const fetchTags = async variables =>
-        await graphql(GET_TAGS, variables).then(({ data }) => {
+    const fetchCategories = async variables =>
+        await graphql(GET_CATEGORIES, variables).then(({ data }) => {
             const {
                 wpgraphql: {
-                    tags: {
+                    categories: {
                         nodes,
                         pageInfo: { hasNextPage, endCursor },
                     },
                 },
             } = data
-            nodes.map(tag => {
-                allTags.push(tag)
+            nodes.map(category => {
+                allTags.push(category)
             })
             if (hasNextPage) {
-                return fetchTags({ first: variables.first, after: endCursor })
+                return fetchCategories({ first: variables.first, after: endCursor })
             }
             return allTags
         })
 
-    await fetchTags({ first: 100, after: null }).then(allTags => {
-        const tagTemplate = path.resolve(`./src/templates/tag.js`)
+    await fetchCategories({ first: 100, after: null }).then(allCategories => {
+        const tagTemplate = path.resolve(`./src/templates/category.js`)
 
-        allTags.map(tag => {
-            console.log(`create category: ${tag.slug}`)
+        allCategories.map(category => {
+            console.log(`create category: ${category.slug}`)
             createPage({
-                path: `/blog/category/${tag.slug}`,
+                path: `/blog/category/${category.slug}`,
                 component: tagTemplate,
-                context: tag,
+                context: category,
             })
         })
     })

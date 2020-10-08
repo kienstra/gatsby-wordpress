@@ -1,6 +1,8 @@
 import React from "react"
 import { graphql } from "gatsby"
 import Layout from "../components/layout"
+import ArchivePosts from "../components/ArchivePosts"
+import SEO from "../components/seo"
 
 const UserTemplate = props => {
   const {
@@ -8,10 +10,13 @@ const UserTemplate = props => {
       wpgraphql: { user },
     },
   } = props
-  const { name } = user
+  const { name, description, posts } = user
   return (
     <Layout>
+      <SEO title={name} />
       <h1>User: {name}</h1>
+      <p>{description}</p>
+      <ArchivePosts posts={posts} />
     </Layout>
   )
 }
@@ -24,6 +29,15 @@ export const userQuery = graphql`
       user(id: $id) {
         id
         name
+        description
+        posts {
+          nodes {
+            postId
+            title(format: RENDERED)
+            slug
+            uri
+          }
+        }
       }
     }
   }
