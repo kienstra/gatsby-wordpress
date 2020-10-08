@@ -1,6 +1,8 @@
 # Gatsby WordPress
 
-Based on Zac Gordon's course [Headless WordPress with Gatsby](https://javascriptforwp.com/courses/headless-wordpress-with-gatsby)
+Based on Zac Gordon's course [Headless WordPress with Gatsby](https://javascriptforwp.com/courses/headless-wordpress-with-gatsby).
+
+This is from following Zac's videos, so most of the code is Zac's.
 
 ## Local development
 
