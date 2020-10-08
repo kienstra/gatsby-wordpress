@@ -27,5 +27,14 @@ index 9bcc86d..d6c75c4 100644
 +        url: `https://your-wordpress-instance.com/graphql`,
        },
      },
+diff --git a/config.js b/config.js
+index 8a8d168..158d20d 100644
+--- a/config.js
++++ b/config.js
+@@ -1,5 +1,5 @@
+ const config = {
+-    wordPressUrl: `https://kienstra.wpengine.com`,
++    wordPressUrl: `https://your-wordpress-instance.com`,
+ }
 ```
 1. `npm install && npm run dev`
