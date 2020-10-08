@@ -13,7 +13,7 @@ npm install && npm run dev
 ## To use your own WordPress instance
 
 1. In your WP instance, install and activate the `master` branch of [wp-graphql](https://github.com/wp-graphql/wp-graphql) and [wp-graphiql](https://github.com/wp-graphql/wp-graphiql)
-1. Change the URL to your WP instance:
+2. Change the URL to your WP instance:
 ```diff
 diff --git a/gatsby-config.js b/gatsby-config.js
 index 9bcc86d..d6c75c4 100644
@@ -37,4 +37,4 @@ index 8a8d168..158d20d 100644
 +    wordPressUrl: `https://your-wordpress-instance.com`,
  }
 ```
-1. `npm install && npm run dev`
+3. `npm install && npm run dev`
