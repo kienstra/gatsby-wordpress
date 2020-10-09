@@ -101,7 +101,7 @@ const CommentForm = () => {
             {!!commentStatus && <CommentStatusFeedback />}
             <h3>
                 Leave a Reply
-        {commentData.commentId && (
+                {commentData.commentId && (
                     <button
                         id="cancel-reply"
                         onClick={() => {
